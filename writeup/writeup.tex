@@ -28,7 +28,7 @@
 % Title. Please use IEEE-compliant title case when specifying the title here,
 % as it has implications for the copyright notice
 % ------
-\title{Traveling Salesperson Tunes}
+\title{Stipple Tunes: An Artistic Form of Uncompressed Audio Steganography}
 
 % Note: Please do NOT use \thanks or a \footnote in any of the author markup
 
@@ -49,7 +49,7 @@
 % --------------\input{ISMIR2021_paper.tex}
 
 \twoauthors
-  {Alexa Lewis} {Ursinus College Mathematics \\ {\tt author1@ismir.edu}}
+  {Alexa Lewis} {Ursinus College Mathematics \\ {\tt allewis@ursinus.edu}}
   {Christopher J. Tralie} {Ursinus College Mathematics And Computer Science \\ {\tt ctralie@alumni.princeton.edu}}
 
 % Four or more addresses
@@ -81,18 +81,17 @@
 \maketitle
 %
 \begin{abstract}
-  
+  We present an artistic audio steganography technique for hiding stipple images inside of uncompressed audio that we dub ``stipple tunes.''  Given an audio carrier and a stipple image to hide, the goal is to get the samples in the left and right audio channels, when interpreted as x and y coordinates in a Cartesian plane, respectively to draw the stipple points.  We accomplish this with an objective function that pans the audio and restricts samples to the stipple, while minimizing error, which we solve using the Viterbi algorithm.
 
 \end{abstract}
 %
 \section{Introduction}\label{sec:introduction}
 
-
-
+Steganography is the process of hiding one data stream ``in plain sight'' in another ``carrier'' data stream.  In audio steganography \cite{djebbar_comparative_2012, dutta_overview_2020}, audio acts as a carrier.  In any steganography technique, a simple scheme involves hiding data in the least significant bit of samples.  In 16-bit audio, this is inaudible.  The downside of such techniques is that compression will destroy the hidden data, and it is easy to detect statistically \cite{fridrich2001reliable}.  However, in this work, we treat steganography as more of an artistic endeavor.  We are concerned less with the data being compressed or statistically or audibly hidden, as long as the audio is still pleasant to listen to.  To that end, we pursue an uncompressed audio steganography technique that we dub ``stipple tunes.''  Our goal is to spread an audio carrier across two channels in such a way that each pair of audio samples, when thought of as a point, plots an XY scatterplot that creates the hidden image.  Figure~\ref{fig:laylaViterbiStipple} and Figure~\ref{fig:mlkViterbiStipple} show two examples.  Using the audio channels as coordinates on the Cartesian plane is spiritually similar to oscilloscope music \cite{felix2021_RenderingShapes, Charles2013, teschler2021}, though we don't ``connect the dots'' as an oscilloscope would.  
 
 \section{Stipple Tunes}
 
-To hide images in audio, we first turn to an intermediate representation: the {\em stipple pattern}.  This is a collection of dots that resembles an image.  We use the technique of Secord \cite{secord2002weighted}, which 
+To hide images in audio, we first turn to an intermediate representation: the {\em stipple pattern}, or a collection of dots that resembles the image.  We use the technique of Secord \cite{secord2002weighted} to automatically create stipples.  This technique samples randomly from a density function that is higher in darker regions of the image, and then it moves the dots towards their Voronoi centers repeatedly (Lloyd's algorithm) until they converge to a more uniform, aesthetically pleasing distribution.
 
 \begin{figure}
   \centering
@@ -100,6 +99,14 @@ To hide images in audio, we first turn to an intermediate representation: the {\
   \caption{A stipple tune on Layla the cat, using a 30 second clip from Eric Clapton's ``Layla,'' created from a stipple with 100,000 points.}
   \label{fig:laylaViterbiStipple}
 \end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\columnwidth]{mlkViterbiStipple.png}
+  \caption{A stipple tune on a picture of Martin Luther King Jr., using a 30 second clip from his ``I Have A Dream'' speech.}
+  \label{fig:mlkViterbiStipple}
+\end{figure}
+
 
 
 \algrenewcommand\algorithmicindent{0.8em}%
@@ -137,17 +144,14 @@ To hide images in audio, we first turn to an intermediate representation: the {\
   \label{alg:stippletunes}
 \end{algorithm}
 
-We turn a single channel audio stream $x[j]$ into a 2D curve by simply repeating the channel twice: one for each coordinate.  From there, a simple idea is to find the nearest neighbor in the stipple pattern to each 2D audio point $(x[j], x[j])$.  However, this has an immediate drawback since the curve simply moves back and forth along the line $y=x$, so nearest neighbors would concentrate near this line.  To encourage the algorithm to explore points away from this line, we slowly rotate the line and sweep the entire stipple.
-
-
+Once we have the stipple pattern and a single channel audio carrier $x[j]$, we turn the audio stream into a 2D curve by simply repeating the channel twice: one for each coordinate.  From there, a simple idea is to find the nearest neighbor in the stipple pattern to each 2D audio point $(x[j], x[j])$.  However, this has an immediate drawback since the curve simply moves back and forth along the line $y=x$, so nearest neighbors would concentrate near this line.  To encourage the algorithm to explore points away from this line, we slowly rotate the line and sweep the entire stipple.  This corresponds to panning the audio between two channels which, while audible, is not unpleasant.
 
 Formally, let $Y[j] = x[j] + i x[j]$ be an embedding of $(x[j], x[j])$ in the complex plane, and similarly embed the stipple $Z$ in the complex plane.  Then, we introduce a hidden state $\theta[j]$ so that we actually find the nearest neighbor from the points $Y_{\theta}[j] = Y[j] e^{i \theta[j]}$ to the stipple pattern $Z$.  The effect of $\theta[j]$ is to pan between the left and right audio channels, and snapping $Y_{\theta}[j]$ to the nearest point in the stipple can be thought of an unusual form of quantization.  
 
-% \footnote{Of course, a probability can always be converted to a ``distance'' via a negative log}
 
+Crucially, we encourage the line to move and sweep the whole image by forcing $\theta[j+1] > \theta[j] + \epsilon$ for some $\epsilon > 0$.  We can solve for the hidden states $\theta[j]$ using the Viterbi algorithm.  Rather than maximizing a probability, as in the traditional application of Viterbi to HMMs, we seek to {\em minimize} the sum of nearest neighbor distances\footnote{Of course, a probability can always be converted to a ``distance'' via a negative log}.  In this way, our application is similar in spirit to corpus-based concatenative synthesis \cite{schwarz2007corpus}, where the ``corpus'' is simply the stipple pattern.  Algorithm~\ref{alg:stippletunes} provides more details. In practice, we discretize $\theta$ by a factor $win$ coarser than audio sample rate to keep the Viterbi algorithm tractable.  We also discretize the possible rotation angles to $na$, and we force adjacent angle states to be between $1$ and $tw < na$ of each other so that adjacent angles have to change, but not by an arbitrary amount.  Figure~\ref{fig:laylaViterbiStipple} shows an example of mapping a stipple of a special cat named Layla to a 30 second clip from Eric Clapton's ``Layla,'' using $na=60$, $win=f_s=44100$, and $tw=10$.  Since $win$ is the sample rate $f_s$, we only have one state per second, but we find this is enough to get a good sweep through the stipple.
 
-
-Crucially, we encourage the line to move and sweep the whole image by forcing $\theta[j+1] > \theta[j] + \epsilon$ for some $\epsilon > 0$.  We can solve for the hidden states $\theta[j]$ using the Viterbi algorithm.  Rather than maximizing a probability, as in the traditional application of Viterbi to HMMs, we seek to {\em minimize} the sum of nearest neighbor distances.  In this way, our application is similar in spirit to corpus-based concatenative synthesis \cite{schwarz2007corpus}, where the ``corpus'' is simply the stipple pattern.  Algorithm~\ref{alg:stippletunes} provides more details. In practice, we discretize $\theta$ by a factor $win$ coarser than audio sample rate to keep the Viterbi algorithm tractable.  We also discretize the possible rotation angles to $na$, and we force adjacent angle states to be between $1$ and $tw < na$ of each other so that adjacent angles have to change, but not by an arbitrary amount.  Figure~\ref{fig:laylaViterbiStipple} shows an example of mapping a stipple of a special cat named Layla to a 30 second clip from Eric Clapton's ``Layla,'' using $na=60$, $win=f_s=44100$, and $tw=10$.  Since $win$ is the sample rate $f_s$, we only have one state per second, but we find this is enough to get a good sweep through the stipple.
+To view the examples live, visit \url{https://ctralie.github.io/StippleTunes/Viewer/}
 
 
 

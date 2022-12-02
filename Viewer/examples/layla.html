@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Record + Features</title>
+    <script src="../jslibs/jquery-3.5.1.min.js"></script>
+    <script src="../jslibs/jquery.ajax.arraybuffer.min.js"></script>
+    <script src="../jslibs/base64-arraybuffer.js"></script>
+    <script src="../jslibs/gl-matrix-min.js"></script>
+    <script src="../jslibs/dat.gui.min.js"></script>
+    <script src="../wav.js"></script>
+    <script src="../colormaps.js"></script>
+    <script src="../stipplecanvas.js"></script>
+    <script src="../audio.js"></script>
+  </head>
+  <body>
+    <h2>Layla</h2>
+
+    <p>
+      The example below shows a stipple tune that draw a picture of a fabulous cat named Layla as it plays a 30 second clip from <a href = "https://www.youtube.com/watch?v=TngViNw2pOo">Layla by Derek & The Dominos</a>.
+    </p>
+
+    <audio controls id="audioPlayer" style="width: 80%;">
+      Your browser does not support the audio element.
+    </audio> 
+    <div id="canvasArea"></div>
+    </body>
+
+    <script>
+      var audio = new SampledAudio(document.getElementById("audioPlayer"));
+      audio.loadFile("layla.wav", document.getElementById("canvasArea"), "winter");
+    </script>
+</html>

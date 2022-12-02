@@ -291,3 +291,75 @@ url = {https://www.youtube.com/watch?v=q9_WG7eXelo},
   howpublished = {\url{https://github.com/jameshball/osci-render}},
   commit = {c0b6bd3fbc47ca9b99ad8bab3447f7a1c088f956}
 }
+
+@inproceedings{cvejic_wavelet_2002,
+	location = {Pine Mountain, {GA}, {USA}},
+	title = {A wavelet domain {LSB} insertion algorithm for high capacity audio steganography},
+	isbn = {978-0-7803-8116-2},
+	abstract = {In this work, we increased the capacity of the classic {LSB} insertion method by performing the embedding process in the wavelet domain. The algorithm uses perfect reconstruction filterbanks and embeds additional information inside wavelet domain of audio signal by modifying {LSB} values of wavelet coefficients. Objective and subjective tests show large advantage of the proposed method over time insertion method. For the same {SNR} values, proposed algorithm outperforms classical {LSB} algorithm by 150-200 kbps of hidden data. Subjective experiments showed that wavelet domain information hiding scheme is acoustically more transparent as well.},
+	eventtitle = {10th {IEEE} Signal Processing Society Digital Signal Processing},
+	pages = {53--55},
+	booktitle = {Proceedings of 2002 {IEEE} 10th Digital Signal Processing Workshop, 2002 and the 2nd Signal Processing Education Workshop.},
+	publisher = {{IEEE}},
+	author = {Cvejic, N. and Seppanen, T.},
+	urldate = {2022-08-08},
+	date = {2002},
+	langid = {english},
+	file = {Cvejic and Seppanen - 2002 - A wavelet domain LSB insertion algorithm for high .pdf:/home/ctralie/Zotero/storage/XSUED3RL/Cvejic and Seppanen - 2002 - A wavelet domain LSB insertion algorithm for high .pdf:application/pdf},
+}
+
+
+@misc{takahashi_source_2022,
+	title = {Source Mixing and Separation Robust Audio Steganography},
+	abstract = {Audio steganography aims at concealing secret information in carrier audio with imperceptible modiﬁcation on the carrier. Although previous works addressed the robustness of concealed message recovery against distortions introduced during transmission, they do not address the robustness against aggressive editing such as mixing of other audio sources and source separation. In this work, we propose for the ﬁrst time a steganography method that can embed information into individual sound sources in a mixture such as instrumental tracks in music. To this end, we propose a time-domain model and curriculum learning essential to learn to decode the concealed message from the separated sources. Experimental results show that the proposed method successfully conceals the information in an imperceptible perturbation and that the information can be correctly recovered even after mixing of other sources and separation by a source separation algorithm. Furthermore, we show that the proposed method can be applied to multiple sources simultaneously without interfering with the decoder for other sources even after the sources are mixed and separated.},
+	number = {{arXiv}:2110.05054},
+	publisher = {{arXiv}},
+	author = {Takahashi, Naoya and Singh, Mayank Kumar and Mitsufuji, Yuki},
+	urldate = {2022-08-01},
+	date = {2022-02-17},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {2110.05054 [cs, eess]},
+	keywords = {Computer Science - Cryptography and Security, Computer Science - Sound, Electrical Engineering and Systems Science - Audio and Speech Processing},
+	file = {Takahashi et al. - 2022 - Source Mixing and Separation Robust Audio Steganog.pdf:/home/ctralie/Zotero/storage/2AHDNU5N/Takahashi et al. - 2022 - Source Mixing and Separation Robust Audio Steganog.pdf:application/pdf},
+}
+@mastersthesis{domenech2022hiding,
+  title={Hiding images in their spoken narratives},
+  author={Dom{\`e}nech Abell{\'o}, Teresa},
+  year={2022},
+  school={Universitat Polit{\`e}cnica de Catalunya}
+}
+
+@misc{geleta_pixinwav_2021,
+	title = {{PixInWav}: Residual Steganography for Hiding Pixels in Audio},
+	shorttitle = {{PixInWav}},
+	abstract = {Steganography comprises the mechanics of hiding data in a host media that may be publicly available. While previous works focused on unimodal setups (e.g., hiding images in images, or hiding audio in audio), {PixInWav} targets the multimodal case of hiding images in audio. To this end, we propose a novel residual architecture operating on top of short-time discrete cosine transform ({STDCT}) audio spectrograms. Among our results, we ﬁnd that the residual audio steganography setup we propose allows independent encoding of the hidden image from the host audio without compromising quality. Accordingly, while previous works require both host and hidden signals to hide a signal, {PixInWav} can encode images ofﬂine — which can be later hidden, in a residual fashion, into any audio signal. Finally, we test our scheme in a lab setting to transmit images over airwaves from a loudspeaker to a microphone verifying our theoretical insights and obtaining promising results.},
+	number = {{arXiv}:2106.09814},
+	publisher = {{arXiv}},
+	author = {Geleta, Margarita and Punti, Cristina and {McGuinness}, Kevin and Pons, Jordi and Canton, Cristian and Giro-i-Nieto, Xavier},
+	urldate = {2022-08-01},
+	date = {2021-06-17},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {2106.09814 [cs, eess]},
+	keywords = {Computer Science - Sound, Electrical Engineering and Systems Science - Audio and Speech Processing, Computer Science - Multimedia},
+	file = {Geleta et al. - 2021 - PixInWav Residual Steganography for Hiding Pixels.pdf:/home/ctralie/Zotero/storage/BWHEC7D4/Geleta et al. - 2021 - PixInWav Residual Steganography for Hiding Pixels.pdf:application/pdf},
+}
+
+@misc{cui_multi-stage_2021,
+	title = {Multi-Stage Residual Hiding for Image-into-Audio Steganography},
+	abstract = {The widespread application of audio communication technologies has speeded up audio data ﬂowing across the Internet, which made it a popular carrier for covert communication. In this paper, we present a cross-modal steganography method for hiding image content into audio carriers while preserving the perceptual ﬁdelity of the cover audio. In our framework, two multi-stage networks are designed: the ﬁrst network encodes the decreasing multilevel residual errors inside different audio subsequences with the corresponding stage sub-networks, while the second network decodes the residual errors from the modiﬁed carrier with the corresponding stage sub-networks to produce the ﬁnal revealed results. The multi-stage design of proposed framework not only make the controlling of payload capacity more ﬂexible, but also make hiding easier because of the gradual sparse characteristic of residual errors. Qualitative experiments suggest that modiﬁcations to the carrier are unnoticeable by human listeners and that the decoded images are highly intelligible.},
+	number = {{arXiv}:2101.01872},
+	publisher = {{arXiv}},
+	author = {Cui, Wenxue and Liu, Shaohui and Jiang, Feng and Liu, Yongliang and Zhao, Debin},
+	urldate = {2022-10-17},
+	date = {2021-01-06},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {2101.01872 [cs]},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition, Computer Science - Cryptography and Security},
+	file = {Cui et al. - 2021 - Multi-Stage Residual Hiding for Image-into-Audio S.pdf:/home/ctralie/Zotero/storage/4GRMZVG7/Cui et al. - 2021 - Multi-Stage Residual Hiding for Image-into-Audio S.pdf:application/pdf},
+}
+
+
+

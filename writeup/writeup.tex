@@ -93,7 +93,7 @@ Using the audio channels as coordinates on the Cartesian plane is spiritually si
 
 \section{Stipple Tunes}
 
-To hide images in audio, we first turn to an intermediate representation: the {\em stipple pattern}, or a collection of dots that resembles the image.  We use the technique of Secord \cite{secord2002weighted} to automatically create stipples.  This technique samples randomly from a density function that is higher in darker regions of the image, and then it moves the dots towards their Voronoi centers repeatedly (Lloyd's algorithm) until they converge to a more uniform, aesthetically pleasing distribution.
+To hide images in audio, we first turn to an intermediate representation: the {\em stipple pattern}, or a collection of dots that resembles the image.  We use the technique of Secord \cite{secord2002weighted} to automatically create stipples.  This technique samples randomly from a density function that is higher in darker regions of the image, and then it moves the dots towards their Voronoi centers repeatedly (Lloyd's algorithm) until they converge to a more uniform, aesthetically pleasing distribution.  To make sure our image picks up on important edges, even if they are brighter, we also make the density function higher in regions that are closer to edges, which we detect with a Canny edge detector \cite{canny1986computational}.
 
 \begin{figure}
   \centering

@@ -259,8 +259,25 @@ def voronoi_stipple(I, thresh, target_points, p=1, canny_sigma=0, n_iters=10, do
                 mask[i, j] = ind2num[coord]
         nums, denoms = get_centroids(mask, len(ind2num), weights)
         X = nums/denoms[:, None]
+    
+    
+    # Create an approximate nearest neighbors lookup image
+    mask = np.ones_like(weights)
+    Xm = np.array(np.round(X), dtype=int)
+    mask[Xm[:, 0], Xm[:, 1]] = 0
+    ds, inds = distance_transform_edt(mask, return_indices=True)
+    ind2num = {}
+    idxs = np.zeros((mask.shape[0], mask.shape[1]), dtype=int)
+    for i in range(inds.shape[0]):
+        for j in range(inds.shape[1]):
+            coord = (inds[0, i, j], inds[1, i, j])
+            if not coord in ind2num:
+                ind2num[coord] = len(ind2num)
+            idxs[i, j] = ind2num[coord]
+    print(ind2num)
     X[:, 0] = I.shape[0]-X[:, 0]
-    return np.fliplr(X)
+    X = np.fliplr(X)
+    return X, ds, idxs
 
 def normalize_to_square(X, scale=2):
     """

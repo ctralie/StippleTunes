@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial import KDTree
 
-def make_stipple_tune(X, y, n_angles, n_perwin, theta_win, n_threads=1):
+def make_stipple_tune(X, indx, y, n_angles, n_perwin, theta_win, n_threads=1):
     """
     Use the Viterbi algorithm to optimally rotate a path and trace through 
     a given stipple pattern
@@ -29,7 +29,6 @@ def make_stipple_tune(X, y, n_angles, n_perwin, theta_win, n_threads=1):
 
     """
     ## Step 1: Initialize variables
-    tree = KDTree(X)
     d_theta = 2*np.pi/(n_angles+1)
     Y = np.array(y)
     if len(Y.shape) == 1:
@@ -58,9 +57,9 @@ def make_stipple_tune(X, y, n_angles, n_perwin, theta_win, n_threads=1):
                 k = (j+dk)%n_angles
                 ks_idxs[dk-1] = k
                 Yj[(dk-1)*n_perwin:dk*n_perwin] = Y[(i-1)*n_perwin:i*n_perwin]*theta_angles[(k, j)]
-            dd, _ = tree.query(np.array([np.real(Yj), np.imag(Yj)]).T, workers=n_threads)
-            dd = np.reshape(dd, (theta_win, n_perwin))
-            transition_costs = np.sum(dd, 1)
+            #dd, _ = tree.query(np.array([np.real(Yj), np.imag(Yj)]).T, workers=n_threads)
+            #dd = np.reshape(dd, (theta_win, n_perwin))
+            #transition_costs = np.sum(dd, 1)
             ks[ks_idxs] = transition_costs + C[ks_idxs, i-1]
             I[j, i] = np.argmin(ks)
             C[j, i] = ks[I[j, i]]

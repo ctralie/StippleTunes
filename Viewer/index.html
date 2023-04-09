@@ -1,8 +1,15 @@
 <html>
 <body>
-<h1>Traveling Salesperson + Stipple Tunes</h1>
-<h2>Supplementary Material</h2>
+<h1>Stipple Tunes</h1>
+<h2>Alexa Lewis, <a href = "https://www.ctralie.com">Chris Tralie</a></h2>
+
+<img src = "BlockDiagram.png" width="90%">
 
 <h3><a href = "https://github.com/ctralie/StippleTunes">Click here</a> to download the source code / notebooks</h3>
 <h3><a href = "examples/index.html">Click here</a> to view interactive examples</h3>
 <h3><a href = "viewer.html">Click here</a> to try your own examples! (NOTE: Must be 44100hz sample rate, or else they will be compressed and blurred!)</h3> 
+
+<h3>Abstract</h3>
+<p>
+    We present an artistic audio steganography technique for hiding stipple images inside of uncompressed audio that we dub ``stipple tunes.''  Given an audio carrier and a stipple image to hide, the goal is to manipulate samples in the left and right audio channels to draw the stipple points; that is, the left and right channels are interpreted, respectively, as X and Y coordinates in the Cartesian plane.  To accomplish this, we devise an objective function that pans the audio and restricts samples to the stipple, while minimizing error, which we solve using the Viterbi algorithm.  Decoding the hidden image is trivial; we simply create a scatterplot of the audio samples. 
+</p>
